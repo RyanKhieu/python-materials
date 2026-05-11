@@ -87,7 +87,14 @@ def sample_word(lm, context_word: str):
     to get a random number, then follow the scheme described in the video for how to turn that random number
     into a random word.
     """
-    raise Exception("IMPLEMENT ME")
+    import random
+    sample = random.uniform(0, 1)
+    total_prob = 0.0
+    for word in lm.get_vocabulary():
+        total_prob += lm.get_probability(context_word, word)
+        if total_prob >= sample:
+            return word
+    return END_SYMBOL
 
 
 def sample_sentence(lm, context_word: str):
@@ -112,7 +119,12 @@ def get_best_word(lm, context_word: str):
     :param context_word:
     :return: The best word to follow context_word according to the probabilities from lm.get_probability
     """
-    raise Exception("IMPLEMENT ME")
+    max = 0.0;
+    for word in lm.get_vocabulary():
+        if lm.get_probability(context_word, word) > max:
+            max = lm.get_probability(context_word, word)
+            best_word = word
+    return best_word
 
 
 def get_best_sentence(lm, context_word: str):
